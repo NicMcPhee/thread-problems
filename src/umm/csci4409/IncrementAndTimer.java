@@ -8,7 +8,7 @@ public class IncrementAndTimer {
         this.incrementer = incrementer;
     }
 
-    public void execute() {
+    public void execute() throws InterruptedException {
         SharedCounter counter = new SharedCounter();
 
         long start = System.currentTimeMillis();

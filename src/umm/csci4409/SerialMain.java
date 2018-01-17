@@ -1,7 +1,7 @@
 package umm.csci4409;
 
 public class SerialMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         IncrementAndTimer serialIncrementer
                 = new IncrementAndTimer(
                 (SharedCounter counter) -> {
