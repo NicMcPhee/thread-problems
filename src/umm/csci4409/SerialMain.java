@@ -9,6 +9,6 @@ public class SerialMain {
                         counter.increment();
                     }
                 });
-        serialIncrementer.execute();
+        serialIncrementer.execute("Serial");
     }
 }

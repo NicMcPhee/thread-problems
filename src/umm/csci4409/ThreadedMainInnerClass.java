@@ -2,43 +2,33 @@ package umm.csci4409;
 
 public class ThreadedMainInnerClass {
 
-    public static final int NUM_THREADS = 8;
+    public static final int NUM_THREADS = 20;
 
     public static void main(String[] args) throws InterruptedException {
-        final int NUM_THREADS = 20;
+        Incrementer incrementer = new Incrementer();
 
-        SharedCounter counter = new SharedCounter();
+        IncrementAndTimer threadedIncrementer = new IncrementAndTimer(incrementer);
 
-        long start = System.currentTimeMillis();
-
-        Thread[] threads = new Thread[NUM_THREADS];
-        for (int i = 0; i< NUM_THREADS; ++i) {
-            threads[i] = new Thread(new Incrementer(counter));
-        }
-        for (int i = 0; i< NUM_THREADS; ++i) {
-            threads[i].start();
-        }
-        for (int i = 0; i< NUM_THREADS; ++i) {
-            threads[i].join();
-        }
-
-        long end = System.currentTimeMillis();
-
-        System.out.println("We've done " + IncrementAndTimer.NUM_INCREMENTS + " increments.");
-        System.out.println("This took " + (end-start) + " milliseconds.");
-        System.out.println("The counter is currently = " + counter.getCount());
+        threadedIncrementer.execute("Threaded Main Inner Class");
     }
 
-    private static class Incrementer implements Runnable {
-        private final SharedCounter counter;
+    private static class Incrementer implements IncrementerIF {
+        @Override
+        public void doIncrements(SharedCounter counter) throws InterruptedException {
+            Thread[] threads = new Thread[NUM_THREADS];
 
-        public Incrementer(SharedCounter counter) {
-            this.counter = counter;
-        }
-
-        public void run() {
-            for (int i=0; i<IncrementAndTimer.NUM_INCREMENTS/NUM_THREADS; ++i) {
-                counter.increment();
+            for (int i = 0; i < NUM_THREADS; ++i) {
+                threads[i] = new Thread(() -> {
+                    for (int j = 0; j < IncrementAndTimer.NUM_INCREMENTS / NUM_THREADS; ++j) {
+                        counter.increment();
+                    }
+                });
+            }
+            for (int i = 0; i < NUM_THREADS; ++i) {
+                threads[i].start();
+            }
+            for (int i = 0; i < NUM_THREADS; ++i) {
+                threads[i].join();
             }
         }
     }

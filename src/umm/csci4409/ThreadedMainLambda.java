@@ -26,6 +26,6 @@ public class ThreadedMainLambda {
                         threads[i].join();
                     }
                 });
-        threadedIncrementer.execute();
+        threadedIncrementer.execute("Threaded Main Lambda");
     }
 }

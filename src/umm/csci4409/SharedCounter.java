@@ -12,7 +12,7 @@ public class SharedCounter {
         }
     }
 
-    public synchronized void increment() {
+    public void increment() {
         if (RUN_FIB && fib(30) < 0) {
             ++count;
         } else {
