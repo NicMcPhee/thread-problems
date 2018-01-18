@@ -1,7 +1,7 @@
 package umm.csci4409;
 
 public class IncrementAndTimer {
-    public static final int NUM_INCREMENTS = 1000000;
+    public static final long NUM_INCREMENTS = 100000;
     private final IncrementerIF incrementer;
 
     public IncrementAndTimer(IncrementerIF incrementer) {

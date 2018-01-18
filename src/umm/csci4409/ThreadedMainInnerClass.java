@@ -1,19 +1,24 @@
 package umm.csci4409;
 
-public class OldThreadedMain {
+public class ThreadedMainInnerClass {
+
+    public static final int NUM_THREADS = 8;
+
     public static void main(String[] args) throws InterruptedException {
+        final int NUM_THREADS = 20;
+
         SharedCounter counter = new SharedCounter();
 
         long start = System.currentTimeMillis();
 
-        Thread[] threads = new Thread[IncrementAndTimer.NUM_INCREMENTS];
-        for (int i=0; i<IncrementAndTimer.NUM_INCREMENTS; ++i) {
+        Thread[] threads = new Thread[NUM_THREADS];
+        for (int i = 0; i< NUM_THREADS; ++i) {
             threads[i] = new Thread(new Incrementer(counter));
         }
-        for (int i=0; i<IncrementAndTimer.NUM_INCREMENTS; ++i) {
+        for (int i = 0; i< NUM_THREADS; ++i) {
             threads[i].start();
         }
-        for (int i=0; i<IncrementAndTimer.NUM_INCREMENTS; ++i) {
+        for (int i = 0; i< NUM_THREADS; ++i) {
             threads[i].join();
         }
 
@@ -32,7 +37,9 @@ public class OldThreadedMain {
         }
 
         public void run() {
-            counter.increment();
+            for (int i=0; i<IncrementAndTimer.NUM_INCREMENTS/NUM_THREADS; ++i) {
+                counter.increment();
+            }
         }
     }
 }
